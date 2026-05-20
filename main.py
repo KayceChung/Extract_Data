@@ -27,8 +27,12 @@ def proxy_vehicles():
         'accept': '*/*',
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
-    resp = requests.get(url, headers=headers)
-    return (resp.text, resp.status_code, resp.headers.items())
+    try:
+        resp = requests.get(url, headers=headers, timeout=10)
+        return (resp.text, resp.status_code, resp.headers.items())
+    except Exception as e:
+        print(f"Error fetching vehicles: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 # Proxy API lấy tài xế
 @app.route('/api/drivers')
@@ -50,8 +54,12 @@ def proxy_drivers():
         'accept': '*/*',
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
-    resp = requests.get(url, headers=headers)
-    return (resp.text, resp.status_code, resp.headers.items())
+    try:
+        resp = requests.get(url, headers=headers, timeout=10)
+        return (resp.text, resp.status_code, resp.headers.items())
+    except Exception as e:
+        print(f"Error fetching drivers: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 # Proxy API lấy chuyến
 @app.route('/api/trips')
@@ -73,8 +81,12 @@ def proxy_trips():
         'accept': '*/*',
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
-    resp = requests.get(url, headers=headers)
-    return (resp.text, resp.status_code, resp.headers.items())
+    try:
+        resp = requests.get(url, headers=headers, timeout=10)
+        return (resp.text, resp.status_code, resp.headers.items())
+    except Exception as e:
+        print(f"Error fetching trips: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
