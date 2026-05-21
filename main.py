@@ -3,7 +3,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+# Đảm bảo cho phép mọi header custom qua CORS
+CORS(app, expose_headers="*", allow_headers="*")
 
 VEXERE_BASE = "https://nhaxe.vexere.com"
 
@@ -28,7 +29,10 @@ def proxy_vehicles():
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
     try:
+        print("[DEBUG] Headers nhận được:", headers)
+        print("[DEBUG] URL gọi tới:", url)
         resp = requests.get(url, headers=headers, timeout=10)
+        print("[DEBUG] Response từ vexere:", resp.status_code, resp.text[:1000])
         return (resp.text, resp.status_code, resp.headers.items())
     except Exception as e:
         print(f"Error fetching vehicles: {e}")
@@ -55,7 +59,10 @@ def proxy_drivers():
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
     try:
+        print("[DEBUG] Headers nhận được:", headers)
+        print("[DEBUG] URL gọi tới:", url)
         resp = requests.get(url, headers=headers, timeout=10)
+        print("[DEBUG] Response từ vexere:", resp.status_code, resp.text[:1000])
         return (resp.text, resp.status_code, resp.headers.items())
     except Exception as e:
         print(f"Error fetching drivers: {e}")
@@ -82,7 +89,10 @@ def proxy_trips():
         'accept-language': 'vi,en;q=0.9,en-US;q=0.8',
     }
     try:
+        print("[DEBUG] Headers nhận được:", headers)
+        print("[DEBUG] URL gọi tới:", url)
         resp = requests.get(url, headers=headers, timeout=10)
+        print("[DEBUG] Response từ vexere:", resp.status_code, resp.text[:1000])
         return (resp.text, resp.status_code, resp.headers.items())
     except Exception as e:
         print(f"Error fetching trips: {e}")
